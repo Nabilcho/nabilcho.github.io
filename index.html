@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -18,10 +17,40 @@
       border: 1px solid #ccc;
       display: none;
     }
-    #result {
-      margin-top: 20px;
-      font-size: 1.2em;
-      font-weight: bold;
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      z-index: 1000;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    #popup h3 {
+      margin-top: 0;
+    }
+    #popup a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
     }
   </style>
 </head>
@@ -34,20 +63,23 @@
   <br>
   <button onclick="recommendAircon()">추천 받기</button>
 
-  <div id="result"></div>
+  <div id="overlay"></div>
+  <div id="popup">
+    <h3>📌 추천 에어컨</h3>
+    <p><strong>LG 18,000 BTU 듀얼 인버터</strong></p>
+    <ul>
+      <li>1. 작은 공간에 18k BTU로 적합함</li>
+      <li>2. 듀얼 인버터로 정숙하고 전기 절약 가능</li>
+      <li>3. 설치와 관리가 간편함</li>
+    </ul>
+    <a href="https://www.extra.com/en-sa/white-goods/air-conditioner/split-air-conditioner/lg-spilt-ac-18000-btu-cool-only-fresh-dv-dual-inverter-compressor-white/p/100369841" target="_blank">구매하러 가기</a>
+  </div>
 
   <script>
     const cameraInput = document.getElementById('cameraInput');
     const preview = document.getElementById('preview');
-    const resultDiv = document.getElementById('result');
-
-    const airconModels = [
-      "삼성 무풍 갤러리",
-      "LG 휘센 듀얼인버터",
-      "캐리어 벽걸이형",
-      "위니아 인버터 에어컨",
-      "하이얼 스마트 쿨링"
-    ];
+    const overlay = document.getElementById('overlay');
+    const popup = document.getElementById('popup');
 
     cameraInput.addEventListener('change', function(event) {
       const file = event.target.files[0];
@@ -62,9 +94,14 @@
     });
 
     function recommendAircon() {
-      const randomModel = airconModels[Math.floor(Math.random() * airconModels.length)];
-      resultDiv.textContent = "📌 추천 에어컨: " + randomModel;
+      overlay.style.display = 'block';
+      popup.style.display = 'block';
     }
+
+    overlay.addEventListener('click', function() {
+      overlay.style.display = 'none';
+      popup.style.display = 'none';
+    });
   </script>
 </body>
 </html>
